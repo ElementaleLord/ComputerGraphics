@@ -9,7 +9,7 @@ class point{
             this->x= x;
             this->y= y;
         }
-    };
+};
 class color{ 
     public:
         GLfloat r,g,b;
@@ -19,6 +19,7 @@ class color{
             this->b= b;
         }
 };
+
 std::map<std::string, point> pos= {
     {"bottomLeft"   , {  0,   0}},
     {"bottomMiddle" , { 50,   0}},
@@ -43,7 +44,6 @@ void init(void){
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0.0, 200.0, 0.0, 200.0);
 }
-
 void drawGrid(point origin, color c= colorMap.at("Grid")){
     glColor3f(c.r, c.g, c.b);
     // vertical lines
@@ -130,7 +130,6 @@ void drawO(point origin, std::string cell, color c= colorMap.at("O")){
 
     glVertex2f(dOrg.x+ 36, dOrg.y+  8);
     glVertex2f(dOrg.x+ 30, dOrg.y+  5);
-
 }
 
 void lineSegment(){
