@@ -127,9 +127,9 @@ int main(int argc, char* argv[]){
     glutCreateWindow("GL Village");
 
     // init();
-    glClearColor(0.0, 0.2, 0.2, 0.5);
+    glClearColor(0.2, 0.2, 0.2, 0.5);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0.0, 200.0, 0.0, 200.0);
+    gluOrtho2D(0.0, 300.0, 0.0, 300.0);
 
     glutDisplayFunc(drawVillage);
     glutMainLoop();
