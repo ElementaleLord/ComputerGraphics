@@ -2,48 +2,38 @@
 #include <map>
 #include <string>
 
-class point{ 
-    public:
-        GLfloat x, y;
-        point(GLfloat x,GLfloat y){
-            this->x= x;
-            this->y= y;
-        }
+struct point{
+    GLfloat x, y;
+    point(GLfloat x, GLfloat y){
+        this->x= x; this-> y= y;
+    }
 };
-class color{ 
-    public:
-        GLfloat r,g,b;
-        color(GLfloat r, GLfloat g, GLfloat b){
-            this->r= r;
-            this->g= g;
-            this->b= b;
-        }
+struct color{
+    GLfloat r, g, b;
+    color(GLint r, GLint g, GLint b){
+        this->r= r/255.0; this-> g= g/ 255.0; this->b= b/255.0;
+    }
 };
 
 std::map<std::string, point> pos= {
-    {"bottomLeft"   , {  0,   0}},
-    {"bottomMiddle" , { 50,   0}},
-    {"bottomRight"  , {100,   0}},
+    {"bottomLeft"   , point(  0,   0)},
+    {"bottomMiddle" , point( 50,   0)},
+    {"bottomRight"  , point(100,   0)},
 
-    {"middleLeft"   , {  0,  50}},
-    {"middleMost"   , { 50,  50}},
-    {"middleRight"  , {100,  50}},
+    {"middleLeft"   , point( 50,  0)},
+    {"middleMost"   , point( 50,  50)},
+    {"middleRight"  , point(100,  50)},
 
-    {"topLeft"      , {  0, 100}},
-    {"topMiddle"    , { 50, 100}},
-    {"topRight"     , {100, 100}},
+    {"topLeft"      , point(  0, 100)},
+    {"topMiddle"    , point( 50, 100)},
+    {"topRight"     , point(100, 100)},
 };
 std::map<std::string, color> colorMap= {
-    {"Grid", {0.0, 1.0, 0.0}},
-    {"X", {1.0, 0.5, 0.0}},
-    {"O", {0.0, 0.5, 1.0}},
+    {"Grid", color(  0, 255, 0)},
+    {"X", color(255, 128,   0)},
+    {"O", color(  0, 128, 255)},
 };
 
-void init(void){
-    glClearColor(0.0, 0.2, 0.2, 0.5);
-    glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0.0, 200.0, 0.0, 200.0);
-}
 void drawGrid(point origin, color c= colorMap.at("Grid")){
     glColor3f(c.r, c.g, c.b);
     // vertical lines
@@ -159,8 +149,11 @@ int main(int argc, char* argv[]){
     glutInitWindowSize(600, 600);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutCreateWindow("GL RGB Lines");
-
-    init();
+    
+    // init();
+    glClearColor(0.0, 0.2, 0.2, 0.5);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0.0, 200.0, 0.0, 200.0);
 
     glutDisplayFunc(lineSegment);
     glutMainLoop();

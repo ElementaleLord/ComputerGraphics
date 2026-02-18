@@ -1,28 +1,28 @@
 #include <GL/glut.h>
+#include <map>
+#include <string>
 
-class point{ 
-    public:
-        GLfloat x, y;
-        point(GLfloat x,GLfloat y){
-            this->x= x;
-            this->y= y;
-        }
-    };
-class color{ 
-    public:
-        GLfloat r,g,b;
-        color(GLfloat r, GLfloat g, GLfloat b){
-            this->r= r;
-            this->g= g;
-            this->b= b;
-        }
+struct point{
+    GLfloat x, y;
+    point(GLfloat x, GLfloat y){
+        this->x= x; this-> y= y;
+    }
 };
-
-void init(void){
-    glClearColor(0.5, 0.5, 0.5, 0.5);
-    glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0.0, 300.0, 0.0, 300.0);
-}
+struct color{
+    GLfloat r, g, b;
+    color(GLint r, GLint g, GLint b){
+        this->r= r/255.0; this-> g= g/ 255.0; this->b= b/255.0;
+    }
+};
+std::map<std::string, color> colorMap= {
+    {"White"    , color(255, 255, 255)},
+    {"Purple"   , color(255,   0, 255)},
+    {"Red"      , color(255,   0,   0)},
+    {"Yellow"   , color(255, 255,   0)},
+    {"Green"    , color(  0, 255,   0)},
+    {"Cyan"     , color(  0, 255, 255)},
+    {"Blue"     , color(  0,  0, 255)},
+};
 
 void drawHouse(point peak, GLfloat width, GLfloat height, color c){
     // house color
@@ -106,13 +106,13 @@ void drawVillage(void){
     glClear(GL_COLOR_BUFFER_BIT);
     glBegin(GL_LINES);
 
-    drawHouse({ 70, 210},    5,   5, {1.0, 1.0, 1.0});// very far white house
-    drawHouse({170, 210},   10,  10, {1.0, 0.0, 1.0});// far-far purple house
-    drawHouse({ 20, 170},   20,  20, {1.0, 0.0, 0.0});// far red house
-    drawHouse({110, 150},   40,  40, {1.0, 1.0, 0.0});// far-middle yellow house
-    drawHouse({230, 100},   60,  60, {0.0, 1.0, 0.0});// middle green house
-    drawHouse({140,  50},   80,  80, {0.0, 1.0, 1.0});// close-middle cyan house
-    drawHouse({ 10,  10},  100, 100, {0.0, 0.0, 1.0});// close blue house
+    drawHouse({ 70, 210},    5,   5, colorMap.at("White"));    // very far white house
+    drawHouse({170, 210},   10,  10, colorMap.at("Purple"));   // far-far purple house
+    drawHouse({ 20, 170},   20,  20, colorMap.at("Red"));      // far red house
+    drawHouse({110, 150},   40,  40, colorMap.at("Yellow"));   // far-middle yellow house
+    drawHouse({230, 100},   60,  60, colorMap.at("Green"));    // middle green house
+    drawHouse({140,  50},   80,  80, colorMap.at("Cyan"));     // close-middle cyan house
+    drawHouse({ 10,  10},  100, 100, colorMap.at("Blue"));     // close blue house
 
     glEnd();
     glFlush();
@@ -126,7 +126,10 @@ int main(int argc, char* argv[]){
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutCreateWindow("GL Village");
 
-    init();
+    // init();
+    glClearColor(0.0, 0.2, 0.2, 0.5);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0.0, 200.0, 0.0, 200.0);
 
     glutDisplayFunc(drawVillage);
     glutMainLoop();
