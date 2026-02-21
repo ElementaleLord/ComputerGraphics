@@ -1,6 +1,12 @@
 #include <GL/glut.h>
 #include <map>
 #include <string>
+#include <math.h>
+#include <cmath>
+
+#define PI 3.14
+#define circleRes 360 // resolution of leaf circle
+#define iterationCount 6 // 
 
 struct point{
     GLfloat x, y;
@@ -17,7 +23,7 @@ struct color{
 std::map<std::string, color> colorMap={
     {"Black",  color(  0,   0,   0)},
     {"White",  color(255, 255, 255)},
-    {"Green",  color(  0, 255,   0)},
+    {"Green",  color(  0, 255,   0)}, 
     {"Brown",  color(150, 140,  80)},
     {"Purple", color(128,   0, 128)},
 };
@@ -90,8 +96,18 @@ void drawTree(point origin, GLfloat height, GLfloat width, color leafC= colorMap
     glVertex2f(origin.x+ width* 0.6, origin.y+ height* 0.8);
 
     //Leaves
-    for (point i= origin; i.x < width; i.x+= 10, i.y+=10){
-        drawLeaf(i, leafC);
+    for (int i= 0; i< circleRes; i++){
+        int angle= i* (iterationCount* PI/ circleRes);
+
+        GLfloat orgX= origin.x+ width* 0.5;
+        GLfloat orgY= origin.y+ height* 0.7;
+
+        GLfloat x= orgX+ (width* 0.4)* std::cos(angle);
+        GLfloat y= orgY+ (height* 0.25)* std::sin(angle);
+        
+        glVertex2f(orgX, orgY);
+        glVertex2f(x, y);
+        drawLeaf({x, y}, leafC);
     }
 }
 
