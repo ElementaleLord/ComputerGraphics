@@ -24,7 +24,11 @@ std::map<std::string, color> colorMap= {
     {"Blue"     , color(  0,  0, 255)},
 };
 
-void drawHouse(point peak, GLfloat width, GLfloat height, color c){
+point translatePeak(point peak, GLfloat width, GLfloat height){
+    return {(GLfloat) peak.x+ width* 0.5,(GLfloat) peak.y+ height* 1.7};
+}
+
+void drawHouse(point peak, GLfloat width, GLfloat height, color c= colorMap.at("White")){
     // house color
     glColor3f(c.r, c.g, c.b);
     
@@ -45,10 +49,9 @@ void drawHouse(point peak, GLfloat width, GLfloat height, color c){
     // right side of roof triangle
     glVertex2f(peak.x+ width,   peak.y+ height);
     // top line of house square / bottom line of roof triangle
-    glVertex2f(peak.x+ width, peak.y+ height);
-    glVertex2f(peak.x, peak.y+ height);
-    // left side of roof triangle
     glVertex2d(peak.x+ width* 0.5, peak.y+ height* 1.7);
+    // left side of roof triangle
+    glVertex2f(peak.x, peak.y+ height);
     
     glEnd();
 
@@ -110,6 +113,63 @@ void drawHouse(point peak, GLfloat width, GLfloat height, color c){
 
     glEnd();
 }
+void drawHouse2(point peak, GLfloat width, GLfloat height, color c= colorMap.at("White")){
+    // house color
+    glColor3f(c.r, c.g, c.b);
+    
+    glBegin(GL_LINE_LOOP);
+    //~ base
+    glVertex2f(peak.x, peak.y);
+    // right side of roof triangle
+    glVertex2f(peak.x+ width* 0.5,   peak.y- height* 0.5);
+    // right line of house square
+    glVertex2f(peak.x+ width* 0.5, peak.y- height* 1.5);
+    // bottom line of house square
+    glVertex2f(peak.x- width* 0.5, peak.y- height* 1.5);
+    // left line of house square
+    glVertex2f(peak.x- width* 0.5,   peak.y- height* 0.5);
+    
+    glEnd();
+
+    glBegin(GL_LINE_LOOP);
+    //~door
+    // right side of door
+    glVertex2f(peak.x- width*0.1, peak.y- height* 1.5);
+    // top of door
+    glVertex2f(peak.x- width*0.1, peak.y- height);
+    glVertex2f(peak.x- width*0.3, peak.y- height);
+    // left side of door
+    glVertex2f(peak.x- width*0.3, peak.y- height* 1.5);
+
+    glEnd();
+
+    glBegin(GL_LINE_LOOP);
+    //~ window
+    // right side of window
+    glVertex2f(peak.x+ width*0.1, peak.y- height* 0.9);
+    // top of window
+    glVertex2f(peak.x+ width*0.1, peak.y- height* 1.1);
+    glVertex2f(peak.x+ width*0.3, peak.y- height* 1.1);
+    // left side of window
+    glVertex2f(peak.x+ width*0.3, peak.y- height* 0.9);
+
+    glEnd();
+
+    glBegin(GL_LINE_LOOP);
+    //~ Chimney
+    // right side of chimney
+    glVertex2f(peak.x- width*0.3, peak.y- height* 0.1);
+    glVertex2f(peak.x- width*0.3, peak.y- height* 0.3);
+    // left side  of chimney
+    glVertex2f(peak.x- width*0.4, peak.y- height* 0.4);
+    glVertex2f(peak.x- width*0.4, peak.y- height* 0.1);
+
+    glEnd();
+}
+void drawHouse1(point peak, GLfloat width, GLfloat height, color c= colorMap.at("White")){
+    drawHouse2(translatePeak(peak,  width, height),  width, height, c);
+}
+
 
 void drawVillage(void){
     glClear(GL_COLOR_BUFFER_BIT);
@@ -120,7 +180,7 @@ void drawVillage(void){
     drawHouse({110, 150},   40,  40, colorMap.at("Yellow"));   // far-middle yellow house
     drawHouse({230, 100},   60,  60, colorMap.at("Green"));    // middle green house
     drawHouse({140,  50},   80,  80, colorMap.at("Cyan"));     // close-middle cyan house
-    drawHouse({ 10,  10},  100, 100, colorMap.at("Blue"));     // close blue house
+    drawHouse1({10,  10},  100, 100, colorMap.at("Blue"));     // close blue house
 
     glFlush();
 }
