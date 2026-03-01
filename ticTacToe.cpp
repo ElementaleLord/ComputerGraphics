@@ -36,6 +36,8 @@ std::map<std::string, color> colorMap= {
 
 void drawGrid(point origin, color c= colorMap.at("Grid")){
     glColor3f(c.r, c.g, c.b);
+    
+    glBegin(GL_LINES);
     // vertical lines
     glVertex2i(origin.x+  50, origin.y     );
     glVertex2i(origin.x+  50, origin.y+ 150);
@@ -49,82 +51,63 @@ void drawGrid(point origin, color c= colorMap.at("Grid")){
 
     glVertex2i(origin.x     , origin.y+ 100);
     glVertex2i(origin.x+ 150, origin.y+ 100);
+    glEnd();
 }
 void drawX(point origin, std::string cell, color c= colorMap.at("X")){
     glColor3f(c.r, c.g, c.b);
     point dynamicOrigin= {origin.x+ pos.at(cell).x, origin.y+ pos.at(cell).y};
 
+    glBegin(GL_LINES);
     glVertex2f(dynamicOrigin.x+  5, dynamicOrigin.y+  5);
     glVertex2f(dynamicOrigin.x+ 45, dynamicOrigin.y+ 45);
 
     glVertex2f(dynamicOrigin.x+ 45, dynamicOrigin.y+  5);
     glVertex2f(dynamicOrigin.x+  5, dynamicOrigin.y+ 45);
+    glEnd();
 
 }
 void drawO(point origin, std::string cell, color c= colorMap.at("O")){
     glColor3f(c.r, c.g, c.b);
     point dOrg= {origin.x+ pos.at(cell).x, origin.y+ pos.at(cell).y};
 
-    //bottom of circle
-    glVertex2f(dOrg.x+ 20, dOrg.y+  5);
-    glVertex2f(dOrg.x+ 30, dOrg.y+  5);
+    glBegin(GL_LINE_LOOP);
+    //right of circle
+    glVertex2f(dOrg.x+ 45, dOrg.y+ 30);
+    glVertex2f(dOrg.x+ 45, dOrg.y+ 20);
 
-    //top of circle
-    glVertex2f(dOrg.x+ 20, dOrg.y+ 45);
-    glVertex2f(dOrg.x+ 30, dOrg.y+ 45);
+    //bottom right connection
+    glVertex2f(dOrg.x+ 42, dOrg.y+ 14);
+    glVertex2f(dOrg.x+ 36, dOrg.y+  8);
+
+    //bottom of circle
+    glVertex2f(dOrg.x+ 30, dOrg.y+  5);
+    glVertex2f(dOrg.x+ 20, dOrg.y+  5);
+
+    //bottom left connection
+    glVertex2f(dOrg.x+ 14, dOrg.y+  8);
+    glVertex2f(dOrg.x+  8, dOrg.y+ 14);
 
     //left of circle
     glVertex2f(dOrg.x+  5, dOrg.y+ 20);
     glVertex2f(dOrg.x+  5, dOrg.y+ 30);
 
-    //right of circle
-    glVertex2f(dOrg.x+ 45, dOrg.y+ 20);
-    glVertex2f(dOrg.x+ 45, dOrg.y+ 30);
-
     //top left connection
-    glVertex2f(dOrg.x+  5, dOrg.y+ 30);
-    glVertex2f(dOrg.x+  8, dOrg.y+ 36);
-
     glVertex2f(dOrg.x+  8, dOrg.y+ 36);
     glVertex2f(dOrg.x+ 14, dOrg.y+ 42);
 
-    glVertex2f(dOrg.x+ 14, dOrg.y+ 42);
+    //top of circle
     glVertex2f(dOrg.x+ 20, dOrg.y+ 45);
-
-    //top right connection
-    glVertex2f(dOrg.x+ 45, dOrg.y+ 30);
-    glVertex2f(dOrg.x+ 42, dOrg.y+ 36);
-
-    glVertex2f(dOrg.x+ 42, dOrg.y+ 36);
-    glVertex2f(dOrg.x+ 36, dOrg.y+ 42);
-
-    glVertex2f(dOrg.x+ 36, dOrg.y+ 42);
     glVertex2f(dOrg.x+ 30, dOrg.y+ 45);
 
-    //bottom left connection
-    glVertex2f(dOrg.x+  5, dOrg.y+ 20);
-    glVertex2f(dOrg.x+  8, dOrg.y+ 14);
+    //top right connection
+    glVertex2f(dOrg.x+ 36, dOrg.y+ 42);
+    glVertex2f(dOrg.x+ 42, dOrg.y+ 36);
 
-    glVertex2f(dOrg.x+  8, dOrg.y+ 14);
-    glVertex2f(dOrg.x+ 14, dOrg.y+  8);
-
-    glVertex2f(dOrg.x+ 14, dOrg.y+  8);
-    glVertex2f(dOrg.x+ 20, dOrg.y+  5);
-
-    //bottom right connection
-    glVertex2f(dOrg.x+ 45, dOrg.y+ 20);
-    glVertex2f(dOrg.x+ 42, dOrg.y+ 14);
-
-    glVertex2f(dOrg.x+ 42, dOrg.y+ 14);
-    glVertex2f(dOrg.x+ 36, dOrg.y+  8);
-
-    glVertex2f(dOrg.x+ 36, dOrg.y+  8);
-    glVertex2f(dOrg.x+ 30, dOrg.y+  5);
+    glEnd();
 }
 
 void lineSegment(){
     glClear(GL_COLOR_BUFFER_BIT);
-    glBegin(GL_LINES);
 
     point origin= {10, 10};
 
@@ -138,7 +121,6 @@ void lineSegment(){
     drawO(origin, "middleMost");
     drawO(origin, "topLeft");
 
-    glEnd();
     glFlush();
 }
 
