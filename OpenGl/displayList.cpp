@@ -1,12 +1,7 @@
 #include <GL/glut.h>
+#include <cmath>
 #include <map>
 #include <string>
-#include <cmath>
-
-#define EXP 2.18
-#define PI 3.14
-#define MAX_X 4
-#define SCREEN_LENGTH 200
 
 struct point{
     GLfloat x, y;
@@ -33,45 +28,35 @@ std::map<std::string, color> colorMap={
     {"Green",   color(  0, 255,   0)}, 
     {"Blue",    color(  0,   0, 255)}, 
 };
+#define PI 3.14159265
 
-GLfloat plot(GLfloat x){
-    return (std::pow(EXP, -x)* std::cos(2* PI* x));
-}
-point translateToScreen(GLfloat x){
-    return {(GLfloat) x* (GLfloat) SCREEN_LENGTH/ 4.0, (GLfloat) ((GLfloat) plot(x)+ 1.0)* (GLfloat) SCREEN_LENGTH/ 2.0};
-}
-
-void drawPlot(GLfloat x, color c= colorMap.at("White")){
+void savePolygon(GLuint regHex, point origin, GLfloat radius, GLint segments, color c= colorMap.at("White")){
     glColor3f(c.r, c.g, c.b);
+    GLuint x, y, k; GLdouble theta;
 
-    point p= translateToScreen(x);
+    glNewList(regHex, GL_COMPILE);
 
-    glBegin(GL_POINTS);
-        glVertex2f(p.x, p.y);
-    glEnd();
-}
-
-void drawFigure(GLfloat x, color c= colorMap.at("White")){
-    glColor3f(c.r, c.g, c.b);
-
-    glBegin(GL_LINES);
-        glVertex2f(x, SCREEN_LENGTH/ 2.0);
-        glVertex2f(x+ SCREEN_LENGTH, SCREEN_LENGTH/ 2.0);
-
-        glVertex2f(x+ 0.005, 0);
-        glVertex2f(x+ 0.005, SCREEN_LENGTH);
-    glEnd();
-}
-
-void drawCurve(){
-    float i= 0.0;
-    drawFigure(i);
-    for (; i<= MAX_X; i+= 0.005){
-        drawPlot(i);
+    glBegin(GL_POLYGON);
+    for (k= 0; k< segments; k++){
+        theta= (PI* 2.0)* ((GLfloat)k/ (GLfloat)segments);
+        x= origin.x+ (radius* std::cos(theta));
+        y= origin.y+ (radius* std::sin(theta));
+        glVertex2i (x, y);
     }
+    glEnd();
+
+    glEndList();
+}
+void drawShape(){
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    GLuint regHex= glGenLists(1),regTrig= glGenLists(1), regRec= glGenLists(1), regDec= glGenLists(1);
+    savePolygon(regHex,{250, 250}, 150, 6);
+
+    glCallList (regHex);
+
     glFlush();
 }
-
 int main(int argc, char* argv[]){
     glutInit(&argc, argv);
 
@@ -83,9 +68,9 @@ int main(int argc, char* argv[]){
     // init();
     glClearColor(0.2, 0.2, 0.2, 0.5);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0.0, SCREEN_LENGTH, 0.0, SCREEN_LENGTH);
-    
-    glutDisplayFunc(drawCurve);
+    gluOrtho2D(0.0, 500.0, 0.0, 500.0);
+
+    glutDisplayFunc(drawShape);
     glutMainLoop();
 
     return 0;
