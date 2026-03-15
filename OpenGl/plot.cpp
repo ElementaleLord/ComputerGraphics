@@ -84,6 +84,8 @@ int main(int argc, char* argv[]){
     glClearColor(0.2, 0.2, 0.2, 0.5);
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0.0, SCREEN_LENGTH, 0.0, SCREEN_LENGTH);
+
+    
     
     glutDisplayFunc(drawCurve);
     glutMainLoop();
