@@ -21,18 +21,18 @@ struct color{
         this->r= r/255.0; this-> g= g/ 255.0; this->b= b/255.0;
     }
 };
-const std::map<std::string, std::vector<GLfloat>> colors= {
-    {"black",   {0.0, 0.0, 0.0}},
-    {"white",   {1.0, 1.0, 1.0}},
-    {"red",     {1.0, 0.0, 0.0}},
-    {"green",   {0.0, 1.0, 0.0}},
-    {"blue",    {0.0, 0.0, 1.0}},
-    {"yellow",  {1.0, 1.0, 0.0}},
-    {"cyan",    {0.0, 1.0, 1.0}},
-    {"magenta", {1.0, 0.0, 1.0}},
-    {"orange",  {1.0, 0.5, 0.0}},
-    {"lime",    {0.5, 1.0, 0.0}},
-    {"purple",  {0.5, 0.0, 1.0}},
+const std::map<std::string, color> colors= {
+    {"black",   {  0,   0,   0}},
+    {"white",   {255, 255, 255}},
+    {"red",     {255,   0,   0}},
+    {"green",   {  0, 255,   0}},
+    {"blue",    {  0,   0, 255}},
+    {"yellow",  {255, 255,   0}},
+    {"cyan",    {  0, 255, 255}},
+    {"magenta", {255,   0, 255}},
+    {"orange",  {255, 128,   0}},
+    {"lime",    {128, 255,   0}},
+    {"purple",  {128,   0, 255}},
 };
 const std::map<int, std::string> keys= {
     {0, "leftClick"     },
@@ -45,11 +45,11 @@ const std::map<int, std::string> keys= {
 void rgbTrig(std::vector<point> verts, std::string c1, std::string c2, std::string c3){
     glBegin(GL_TRIANGLES);
 
-    glColor3fv(colors.at(c1).data());
+    glColor3f(colors.at(c1).r, colors.at(c1). g, colors.at(c1). b);
     glVertex2f(verts[0].x,  verts[0].y);
-    glColor3fv(colors.at(c2).data());
+    glColor3f(colors.at(c2).r, colors.at(c2). g, colors.at(c2). b);
     glVertex2f(verts[1].x,  verts[1].y);
-    glColor3fv(colors.at(c3).data());
+    glColor3f(colors.at(c3).r, colors.at(c3). g, colors.at(c3). b);
     glVertex2f(verts[2].x,  verts[2].y);
 
     glEnd();
@@ -58,7 +58,7 @@ void rgbTrig(std::vector<point> verts, std::string c1, std::string c2, std::stri
 void drawPoint(point org, std::string c1){
     glBegin(GL_POINTS);
 
-    glColor3fv(colors.at(c1).data());
+    glColor3f(colors.at(c1).r, colors.at(c1). g, colors.at(c1). b);
     glVertex2f(org.x,  org.y);
 
     glEnd();
