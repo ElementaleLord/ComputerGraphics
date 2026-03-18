@@ -34,12 +34,22 @@ const std::map<std::string, color> colors= {
     {"lime",    {128, 255,   0}},
     {"purple",  {128,   0, 255}},
 };
-const std::map<int, std::string> keys= {
+const std::map<int, std::string> mouseKeys= {
     {0, "leftClick"     },
     {1, "middleClick"   },
     {2, "rightClick"    },
     {3, "scrollUp"      },
     {4, "scrollDown"    },
+};
+const std::map<int, std::string> modKeys= {
+    {0, "none"              },
+    {1, "shift"             },
+    {2, "ctrl"              },
+    {3, "shift+ ctrl"       },
+    {4, "alt"               },
+    {5, "alt+ shift"        },
+    {6, "alt+ ctrl"         },
+    {7, "alt+ ctrl+ shift"  },
 };
 
 void rgbTrig(std::vector<point> verts, std::string c1, std::string c2, std::string c3){
@@ -80,13 +90,20 @@ void display() {
 }
 
 void handleKeyboard(unsigned char key, int mouseX, int mouseY){
-    std::cout << "key= " << key << " ,mouseX= " << mouseX << " ,mouseY= " << mouseY << std::endl;
+    std::cout << "Key= " << key << std::endl;
+    std::cout << "MouseX= " << mouseX << std::endl;
+    std::cout << "MouseY= " << mouseY << std::endl;
+    std::cout << "Modifier= " << modKeys.at(glutGetModifiers()) << std::endl;
+    std::cout << std::endl;
 }
 void handleMouse(int clickType, int isClicked, int mouseX, int mouseY){
-    std::cout << "clickType= " << keys.at(clickType);
-    std::cout << " ,isHeld= " << isClicked;
-    std::cout << " ,MouseX= " << mouseX;
-    std::cout << " ,mouseY= " << mouseY << std::endl;
+    std::cout << "ClickType= " << mouseKeys.at(clickType) << std::endl;
+    std::cout << "IsClicked= " << isClicked << std::endl;
+    std::cout << "MouseX= " << mouseX << std::endl;
+    std::cout << "MouseY= " << mouseY << std::endl;
+    std::cout << "Modifier= " << modKeys.at(glutGetModifiers()) << std::endl;
+    std::cout << std::endl;
+    
     drawPoint({(GLfloat) mouseX, (GLfloat) mouseY}, "white");
 }
 
@@ -101,6 +118,7 @@ int main(int argc, char** argv) {
     glutKeyboardFunc(handleKeyboard);         // Handle keyboard input
     glutMouseFunc(handleMouse);               // Handle mouse input
     glutMainLoop();                           // Enter the event-processing loop
+    
 
     return 0;
 }
